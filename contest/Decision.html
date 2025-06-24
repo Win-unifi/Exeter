@@ -3,11 +3,11 @@
 {{ endblock }}
 {{ block content }}
 
-Your endowment is {{ player.endowment }}
+Your endowment is {{ player.endowment }}.
 <!-- Alternative that does not read the value directly from the database (so you are not sure that what you see is what the player saw)
 Your endowment is {{ C.ENDOWMENT }} -->
-Each ticket costs {{ player.cost_per_ticket }}
-The prize is worth {{ group.prize }}
+Each ticket costs {{ player.cost_per_ticket }}.
+The prize is worth {{ group.prize }}.
 
     {{ formfields }}
     {{ next_button }}

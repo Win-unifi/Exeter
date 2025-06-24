@@ -7,9 +7,9 @@
 You purchased {{ player.tickets_purchased }} tickets.
 <!-- Not good "too long" variable definition: SEE _init_py -->
 <!-- The other player purchased {{ coplayer_purchase }} tickets -->
-The other player purchased {{ player.coplayer.tickets_purchase }} tickets.
-You won {{  }} of the prize.
-Your earnings are {{ }}.
+The other player purchased {{ player.coplayer.tickets_purchased }} tickets.
+You won {{ player.prize_won }} of the prize.
+Your earnings are {{ player.earnings }}.
 
     {{ next_button }}
 {{ endblock }}

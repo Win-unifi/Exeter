@@ -1,7 +1,7 @@
 from otree.api import *
 
 doc = """
-Your app description
+ Tullock Lottery Contest - Prima esercitazione scuola estiva Exeter 2025
 """
 
 class C(BaseConstants):
@@ -21,7 +21,7 @@ class Subsession(BaseSubsession):
             group.setup_round()
 
     def compute_outcome(self):
-        for group in self.get_groups()
+        for group in self.get_groups():
             group.compute_outcome()
 
 class Group(BaseGroup):
@@ -33,19 +33,24 @@ class Group(BaseGroup):
             player.setup_round()
 
     def compute_outcome(self):
-        total = sum(player.tickets_purchased for player in self..get_players())
+        total = sum(player.tickets_purchased for player in self.get_players())
         for player in self.get_players():
             try:
                 player.prize_won = player.tickets_purchased / total
             except ZeroDivisionError:
                 player.prize_won = 1 / len(self.get_players())
-
-
+            player.earnings = (
+                    player.endowment -
+                    player.tickets_purchased * player.cost_per_ticket +
+                    self.prize * player.prize_won
+            )
 
 class Player(BasePlayer):
     endowment = models.CurrencyField()
     cost_per_ticket = models.CurrencyField()
     tickets_purchased = models.IntegerField()
+    prize_won = models.FloatField()
+    earnings = models.CurrencyField()
 
     def setup_round(self):
         self.endowment = C.ENDOWMENT
@@ -55,14 +60,15 @@ class Player(BasePlayer):
     def coplayer(self):
         return self.group.get_player_by_id(3 - self.id_in_group)
 
-#Creates a global scope function alternative to having the SetupRound(WaitPage)
-#def creating_session(subsession):
+# Creates a global scope function alternative to having the SetupRound(WaitPage)
+# def creating_session(subsession):
 #    subsessionsetup_round().
 
 # PAGES
 
 class SetupRound(WaitPage):
     wait_for_all_groups = True
+
     @staticmethod
     def after_all_players_arrive(subsession):
         subsession.setup_round()
@@ -75,7 +81,11 @@ class Decision(Page):
     form_fields = ["tickets_purchased"]
 
 class DecisionWaitPage(WaitPage):
-    pass
+    wait_for_all_groups = True
+
+    @staticmethod
+    def after_all_players_arrive(subsession):
+        subsession.compute_outcome()
 
 class Results(Page):
     pass
