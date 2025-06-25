@@ -15,27 +15,46 @@ SESSION_CONFIGS = [
         ],
         num_demo_participants=3,
     ),
-dict(
+    dict(
         name="contest_share",
         app_sequence=[
             "contest"
         ],
         num_demo_participants=2,
+        contest_csf="share",
+        contest_endowment=9,
     ),
-dict(
+    dict(
         name="contest_allpay",
         app_sequence=[
             "contest"
         ],
         num_demo_participants=2,
+        contest_csf="allpay",
     ),
-dict(
+    dict(
+        name="contest_lottery",
+        app_sequence=[
+            "contest"
+        ],
+        num_demo_participants=2,
+        contest_csf="lottery",
+        contest_group_randomly=True,
+    ),
+    dict(
         name="encryption",
         app_sequence=[
             "encryption"
         ],
         num_demo_participants=2,
     ),
+    dict(
+        name="summary",
+        app_sequence=[
+            "summary"
+        ],
+        num_demo_participants=2,
+    )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
