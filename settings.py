@@ -16,9 +16,23 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
     ),
 dict(
-        name="contest",
+        name="contest_share",
         app_sequence=[
             "contest"
+        ],
+        num_demo_participants=2,
+    ),
+dict(
+        name="contest_allpay",
+        app_sequence=[
+            "contest"
+        ],
+        num_demo_participants=2,
+    ),
+dict(
+        name="encryption",
+        app_sequence=[
+            "encryption"
         ],
         num_demo_participants=2,
     ),
