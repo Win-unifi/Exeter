@@ -2,6 +2,10 @@
     Decision
 {{ endblock }}
 
+{{ block styles }}
+<link href="{{ static 'global/slider.css' }}" rel="stylesheet">
+{{ endblock }}
+
 {{ block scripts }}
     <script>
         $(document).ready(function() {
@@ -24,7 +28,7 @@
 <li>The prize is worth {{ group.prize }}.</li>
 </ol>
 
-<input type="range" class="form-range" min="0" max="{{ player.max_tickets_affordable }}" name="tickets_purchased">
+<input type="range" class="form-range range-hidden-slider" min="0" max="{{ player.max_tickets_affordable }}" name="tickets_purchased">
 
 <p class="text-center">
     Number of tickets selected to purchase:
