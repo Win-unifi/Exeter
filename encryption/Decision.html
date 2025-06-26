@@ -9,10 +9,22 @@
        font-size: 2.5rem;
        font-family: "Comic Sans MS"
    }
+   .otree-timer {
+       display: none;
+   }
+   .timer-block {
+       background: #ccc;
+   }
 </style>
 {{ endblock }}
 
 {{ block content }}
+
+<div class="row justify-content-center timer-block">
+    <div class="col text-center p-2">
+        You have &#9203; <span class="fw-bold otree-timer__time-left"></span> remaining to encrypt words.
+    </div>
+</div>
 
 <table class="table">
     <thead>
@@ -31,16 +43,6 @@
     </tbody>
 </table>
 
-<p class="text-center fs-3">
-    {{ subsession.word }}
-</p>
-
-<div class="row">
-    <div class="col-12 text-center">
-    {{ subsession.word }}
-    </div>
-</div>
-
 <div class="row">
     <div class="col-12 text-center word">
         {{ subsession.word }}
@@ -48,7 +50,19 @@
 
 </div>
 
-    {{ formfields }}
-    {{ next_button }}
+<div class="row justify-content-center">
+{{ for field in player.response_fields }}
+    <div class="col-2">
+        <input type="number" class="form-control" inputmode="numeric"
+               id="id_{{field}}" min="0" name="{{field}}" required value="">
+    </div>
+{{ endfor }}
+</div>
+
+<div class="row justify-content-center p-3">
+    <div class="col-4">
+        <button class="otree-btn-next btn btn-primary w-100">Confirm coding</button>
+    </div>
+</div>
 
 {{ endblock }}
