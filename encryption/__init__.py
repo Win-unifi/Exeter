@@ -6,15 +6,15 @@ from otree.api import *
 
 
 doc = """
-Effort task - Seconda esercitazione Exeter 2025
+Your app description
 """
 
 
 class C(BaseConstants):
     NAME_IN_URL = 'encryption'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 3
-    TIME_FOR_TASK = 40
+    NUM_ROUNDS = 1
+    TIME_FOR_TASK = 1000
     LOOKUP_TABLES = [
         "ZYXJIUTLKQSRNWVHGFEDMOPCBA",
         "ZYXWVUTSRQPONMLKJIHGFEDCBA",
@@ -86,6 +86,10 @@ class Player(BasePlayer):
     def get_time_remaining(self):
         return self.subsession.in_round(1).time_for_task - self.get_time_elapsed()
 
+    @property
+    def total_payoff(self):
+        return sum(p.payoff for p in self.in_all_rounds())
+
 
 def creating_session(subsession):
     subsession.setup_round()
@@ -122,6 +126,10 @@ class Results(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == C.NUM_ROUNDS
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.participant.vars["earnings_encryption"] = player.total_payoff
 
 
 page_sequence = [

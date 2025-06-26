@@ -2,46 +2,16 @@ import random
 
 from otree.api import *
 
+
 doc = """
- Tullock Lottery Contest - Prima esercitazione scuola estiva Exeter 2025
+Your app description
 """
+
 
 class C(BaseConstants):
     NAME_IN_URL = 'contest'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 2
-    ENDOWMENT = Currency(10)
-    COST_PER_TICKET = Currency(0.50)
-    PRIZE = Currency(8)
-
-class Subsession(BaseSubsession):
-    is_paid = models.BooleanField()
-
-    def setup_round(self):
-        self.is_paid = self.is_paid = self.round_number % 2 == 1 # Pago solo i turni dispari #
-        # self.is_paid = True  Pago tutti i turni #
-        for group in self.get_groups():
-            group.setup_round()
-
-    def compute_outcome(self):
-        for group in self.get_groups():
-            group.compute_outcome()
-
-class Group(BaseGroup):
-    prize = models.CurrencyField()
-
-    def setup_round(self):
-        self.prize = C.PRIZE
-        for player in self.get_players():
-            player.setup_round()
-
-    def compute_outcome(self):
-        total = sum(player.tickets_purchased for player in self.get_players())
-        for player in self.get_players():
-            try:class C(BaseConstants):
-    NAME_IN_URL = 'contest'
-    PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 2
+    NUM_ROUNDS = 1
     NUM_PAID_ROUNDS = 1
     ENDOWMENT = Currency(10)
     COST_PER_TICKET = Currency(0.50)
@@ -145,6 +115,10 @@ class Player(BasePlayer):
     def in_paid_rounds(self):
         return [rd for rd in self.in_all_rounds() if rd.subsession.is_paid]
 
+    @property
+    def total_payoff(self):
+        return sum(p.payoff for p in self.in_all_rounds())
+
 
 # PAGES
 class SetupRound(WaitPage):
@@ -194,6 +168,10 @@ class EndBlock(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == C.NUM_ROUNDS
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.participant.vars["earnings_contest"] = player.total_payoff
 
 
 page_sequence = [
